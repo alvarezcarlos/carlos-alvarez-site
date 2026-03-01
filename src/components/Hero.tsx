@@ -48,8 +48,8 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
           className="flex flex-wrap items-center justify-center gap-6 pt-8"
         >
           <motion.a
-            href="/cv.md"
-            download="Carlos_Alvarez_CV.md"
+            href="/CV Carlos Alvarez.pdf"
+            download="Carlos_Alvarez_CV.pdf"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="relative inline-flex items-center justify-center px-6 py-3 overflow-hidden font-medium rounded-full bg-transparent border transition-all duration-300 border-neon-cyan text-neon-cyan hover:bg-neon-cyan/10 box-glow-cyan text-glow-cyan gap-2 text-lg"
