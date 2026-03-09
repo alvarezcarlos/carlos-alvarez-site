@@ -1,10 +1,27 @@
 "use client";
 
 import type { Dictionary } from "@/i18n/dictionaries";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { FileText, Linkedin, Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function Hero({ dict }: { dict: Dictionary["hero"] }) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Hide the scroll indicator after scrolling down 50px
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 px-4 overflow-hidden">
       {/* Decorative background elements */}
@@ -87,19 +104,29 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
       </div>
 
       {/* Animated scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
-      >
-        <div className="w-[30px] h-[50px] rounded-full border-2 border-gray-500 flex justify-center p-2">
+      <AnimatePresence>
+        {!isScrolled && (
           <motion.div
-            animate={{ y: [0, 15, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="w-2 h-2 bg-neon-cyan rounded-full"
-          />
-        </div>
-      </motion.div>
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            animate={{ y: [0, 10, 0] }}
+            transition={{
+              repeat: Infinity,
+              duration: 2,
+              opacity: { duration: 0.3 },
+            }}
+            className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          >
+            <div className="w-[30px] h-[50px] rounded-full border-2 border-gray-500 flex justify-center p-2">
+              <motion.div
+                animate={{ y: [0, 15, 0] }}
+                transition={{ repeat: Infinity, duration: 2 }}
+                className="w-2 h-2 bg-neon-cyan rounded-full"
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
